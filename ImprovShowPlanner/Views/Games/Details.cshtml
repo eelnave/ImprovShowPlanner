@@ -1,0 +1,42 @@
+﻿@model ImprovShowPlanner.Models.Game
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Game</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NumPlayers)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NumPlayers)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Desc)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Desc)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.GameType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.GameType.GameTypeId)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.GameId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

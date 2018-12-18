@@ -1,5 +1,3 @@
-using System;
-
 namespace ImprovShowPlanner.Models
 {
     public class ErrorViewModel

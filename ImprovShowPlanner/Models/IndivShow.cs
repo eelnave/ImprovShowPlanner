@@ -1,13 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 namespace ImprovShowPlanner.Models
 {
     public class IndivShow
     {
-        public int showId { get; set;}
-        public DateTime date { get; set; }
+        public int IndivShowId { get; set;}
+        public DateTime Date { get; set; }
 
-        public IndivShow()
-        {
-        }
+        public ICollection<Show> ShowDetails { get; set; }
     }
 }
