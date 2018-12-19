@@ -61,7 +61,7 @@ namespace ImprovShowPlanner
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Players}/{action=Index}/{id?}");
+                    template: "{controller=Shows}/{action=Index}/{id?}");
             });
         }
     }

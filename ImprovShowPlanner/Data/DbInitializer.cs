@@ -10,48 +10,16 @@ namespace ImprovShowPlanner.Data
     {
         public static void Initialize(ImprovShowContext context)
         {
-            if (context.GameTypes.Any())
+            if (context.IndivShows.Any())
             {
                 return;
             }
-            var players = new Player[]
-            {
-                new Player{FirstName="Evan", LastName="Peterson",NewPlayer=false},
-                new Player{FirstName="Nate", LastName="Wadsworth",NewPlayer=true}
-            };
-            foreach (Player p in players)
-            {
-                context.Players.Add(p);
-            }
-            context.SaveChanges();
-
-            var gameTypes = new GameType[]
-            {
-                new GameType{GameForm = "Long Form"},
-                new GameType{GameForm = "Short Form"},
-            };
-            foreach (GameType gt in gameTypes)
-            {
-                context.GameTypes.Add(gt);
-            }
-            context.SaveChanges();
-
-            var games = new Game[]
-            {
-                new Game{Name="SomeGame",NumPlayers=2,Desc="do some stuff",GameTypeId = 1},
-                new Game{Name="AnotherGame",NumPlayers=1,Desc="do some other stuff",GameTypeId=2}
-            };
-            foreach (Game g in games)
-            {
-                context.Games.Add(g);
-            }
-            context.SaveChanges();
 
             var indivShows = new IndivShow[]
             {
                 new IndivShow{Date = DateTime.Now},
-                new IndivShow{Date = DateTime.Now},
-                new IndivShow{Date = DateTime.Now},
+                new IndivShow{Date = DateTime.Parse("Jan 1, 2019 19:00")},
+                new IndivShow{Date = DateTime.Parse("Jan 1, 2019 21:00")},
 
             };
             foreach (IndivShow i in indivShows)
@@ -62,9 +30,9 @@ namespace ImprovShowPlanner.Data
 
             var shows = new Show[]
             {
-                new Show{PlayerId=1,GameId=3,IndivShowId=2},
-                new Show{PlayerId=2,GameId=1,IndivShowId=1},
-                new Show{PlayerId=1,GameId=2,IndivShowId=1},
+                new Show{PlayerId=8,GameId=7,IndivShowId=2},
+                new Show{PlayerId=9,GameId=7,IndivShowId=1},
+                new Show{PlayerId=10,GameId=7,IndivShowId=1},
 
             };
             foreach (Show s in shows)
