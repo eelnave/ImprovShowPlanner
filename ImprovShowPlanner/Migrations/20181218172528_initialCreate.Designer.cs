@@ -11,7 +11,7 @@ namespace ImprovShowPlanner.Migrations
 {
     [DbContext(typeof(ImprovShowContext))]
     [Migration("20181218172528_initialCreate")]
-    partial class initialCreate
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

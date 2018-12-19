@@ -11,7 +11,7 @@ namespace ImprovShowPlanner.Migrations
 {
     [DbContext(typeof(ImprovShowContext))]
     [Migration("20181218174450_foreignKeyTest5")]
-    partial class foreignKeyTest5
+    partial class ForeignKeyTest5
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

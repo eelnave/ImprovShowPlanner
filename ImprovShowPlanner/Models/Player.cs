@@ -14,6 +14,7 @@ namespace ImprovShowPlanner.Models
         [StringLength(50, ErrorMessage = "Last name cannot be longer than 50 characters.")]
         [Display(Name = "Last Name")]
         public string LastName { get; set; } 
+        [Display(Name = "New Player")]
         public bool NewPlayer { get; set; }
 
         public ICollection<Show> ShowDetails { get; set; }

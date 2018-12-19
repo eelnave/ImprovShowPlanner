@@ -2,7 +2,7 @@
 
 namespace ImprovShowPlanner.Migrations
 {
-    public partial class foreignKeyTest : Migration
+    public partial class ForeignKeyTest : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

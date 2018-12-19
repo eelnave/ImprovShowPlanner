@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ImprovShowPlanner.Data;
+using ImprovShowPlanner.Views.Games;
 
 namespace ImprovShowPlanner.Views.Game
 {
@@ -47,7 +48,7 @@ namespace ImprovShowPlanner.Views.Game
         // GET: Games/Create
         public IActionResult Create()
         {
-            ViewData["GameTypeId"] = new SelectList(_context.GameTypes, "GameTypeId", "GameTypeId");
+            ViewBag.GameTypeSl = PopulateGameTypeDropDownList(_context);
             return View();
         }
 
@@ -76,13 +77,21 @@ namespace ImprovShowPlanner.Views.Game
                 return NotFound();
             }
 
-            var game = await _context.Games.FindAsync(id);
-            if (game == null)
+            var gameToUpdate = await _context.Games.FindAsync(id);
+            if (gameToUpdate == null)
             {
                 return NotFound();
             }
-            ViewData["GameTypeId"] = new SelectList(_context.GameTypes, "GameTypeId", "GameTypeId", game.GameTypeId);
-            return View(game);
+
+            if (await TryUpdateModelAsync<Models.Game>(
+                gameToUpdate, "game", g => g.Name, g => g.Desc, g => g.NumPlayers, g => g.GameTypeId))
+            {
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
+            }
+
+            ViewBag["GameTypeId"] = PopulateGameTypeDropDownList(_context, gameToUpdate.GameTypeId);
+            return View(gameToUpdate);
         }
 
         // POST: Games/Edit/5
@@ -154,6 +163,17 @@ namespace ImprovShowPlanner.Views.Game
         private bool GameExists(int id)
         {
             return _context.Games.Any(e => e.GameId == id);
+        }
+        
+        private SelectList PopulateGameTypeDropDownList(ImprovShowContext context,
+            object selectedGameType = null)
+        {
+            var gameTypeQuery = from d in context.GameTypes
+                orderby d.GameForm
+                select d;
+            
+            var GameTypeSl = new SelectList(gameTypeQuery.AsNoTracking(), "GameTypeId", "GameForm", selectedGameType);
+            return GameTypeSl;
         }
     }
 }
