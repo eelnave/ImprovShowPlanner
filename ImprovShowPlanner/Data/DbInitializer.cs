@@ -38,7 +38,7 @@ namespace ImprovShowPlanner.Data
 
             var games = new Game[]
             {
-                new Game{Name="SomeGame",NumPlayers=2,Desc="do some stuff",GameTypeId = },
+                new Game{Name="SomeGame",NumPlayers=2,Desc="do some stuff",GameTypeId = 1},
                 new Game{Name="AnotherGame",NumPlayers=1,Desc="do some other stuff",GameTypeId=2}
             };
             foreach (Game g in games)
