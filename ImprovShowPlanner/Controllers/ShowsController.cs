@@ -1,14 +1,20 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ImprovShowPlanner.Data;
 using ImprovShowPlanner.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.TagHelpers;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.Extensions.Primitives;
 
-namespace ImprovShowPlanner.Views.Shows
+namespace ImprovShowPlanner.Controllers
 {
     public class ShowsController : Controller
     {
@@ -167,6 +173,88 @@ namespace ImprovShowPlanner.Views.Shows
         private bool ShowExists(int id)
         {
             return _context.Shows.Any(e => e.ShowId == id);
+        }
+
+        public async Task<IActionResult> CreateDatePage()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> CreateShowPage()
+        {
+            ViewData["ShowDate"] = HelperClass.ShowBuildHelper.ShowDate;
+            
+            return View();
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> CreateShowPage([Bind("Date")] IndivShow indivShow)
+        {
+            HelperClass.ShowBuildHelper.ShowDate = indivShow.Date;
+            if (ModelState.IsValid)
+            {
+                _context.Add(indivShow);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(CreateShowPage));
+            }
+
+            return View(indivShow);
+        }
+
+        public IActionResult ChooseGames()
+        {
+            var gameNames = from d in _context.Games
+                            orderby d.Name
+                            select d;
+            ViewData["GameList"] = new SelectList(gameNames, "Name", "Name");
+            return View();
+        }
+        
+        public IActionResult ChoosePlayers([Bind("Name")] Game game)
+        {
+            HelperClass.ShowBuildHelper.GameName = game.Name;
+            
+            var PlayerNames = from p in _context.Players
+                orderby p.FirstName
+                select p;
+
+            var PlayerNumber =
+                (from g in _context.Games where g.Name == game.Name select g.NumPlayers).FirstOrDefault();
+
+            ViewData["PlayerList"] = new SelectList(PlayerNames, "FirstName", "FirstName");
+            ViewData["PlayerNumber"] = PlayerNumber;
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateGame(IFormCollection players)
+        {
+            ArrayList dataToAdd = new ArrayList();
+            var showId = (from s in _context.IndivShows
+                where s.Date == HelperClass.ShowBuildHelper.ShowDate
+                select s.IndivShowId).FirstOrDefault();
+            var gameId = (from g in _context.Games
+                where g.Name == HelperClass.ShowBuildHelper.GameName
+                select g.GameId).FirstOrDefault();
+            foreach (var player in players)
+            {
+                var playerId = (from p in _context.Players
+                    where p.FirstName == player.Value
+                    select p.PlayerId).FirstOrDefault();
+                dataToAdd.Add(new Show{PlayerId=playerId,GameId=gameId,IndivShowId=showId});
+                
+            }
+            dataToAdd.RemoveAt(dataToAdd.Count - 1);
+            if (ModelState.IsValid)
+            {
+                foreach (var piece in dataToAdd)
+                {
+                    _context.Add(piece);
+                }
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(CreateShowPage));
+            }
+            return RedirectToAction(nameof(ChoosePlayers));
         }
     }
 }

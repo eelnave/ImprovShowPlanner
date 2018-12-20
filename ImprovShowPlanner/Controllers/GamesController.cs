@@ -74,21 +74,13 @@ namespace ImprovShowPlanner.Controllers
                 return NotFound();
             }
 
-            var gameToUpdate = await _context.Games.FindAsync(id);
-            if (gameToUpdate == null)
+            var game = await _context.Games.FindAsync(id);
+            if (game == null)
             {
                 return NotFound();
             }
-
-            if (await TryUpdateModelAsync<Models.Game>(
-                gameToUpdate, "game", g => g.Name, g => g.Desc, g => g.NumPlayers, g => g.GameTypeId))
-            {
-                await _context.SaveChangesAsync();
-                return RedirectToPage("./Index");
-            }
-
-            ViewBag["GameTypeId"] = PopulateGameTypeDropDownList(_context, gameToUpdate.GameTypeId);
-            return View(gameToUpdate);
+            ViewData["GameTypeId"] = PopulateGameTypeDropDownList(_context, game.GameTypeId);
+            return View(game);
         }
 
         // POST: Games/Edit/5

@@ -62,9 +62,9 @@ namespace ImprovShowPlanner.Data
 
             var shows = new Show[]
             {
-                new Show{PlayerId=1,GameId=3,IndivShowId=2},
-                new Show{PlayerId=2,GameId=1,IndivShowId=1},
                 new Show{PlayerId=1,GameId=2,IndivShowId=1},
+                new Show{PlayerId=2,GameId=1,IndivShowId=1},
+                new Show{PlayerId=1,GameId=3,IndivShowId=2},
 
             };
             foreach (Show s in shows)
