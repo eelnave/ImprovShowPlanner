@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<ImprovShowPlanner.Models.Show>
 
 @{
+    ViewBag.Title = "Shows";
     ViewData["Title"] = "Index";
 }
 
@@ -19,17 +20,21 @@
     </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model)
+{
+
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.IndivShow.Date)
             </td>
             <td>
+                @Html.ActionLink("Select","Index",new {id = item.IndivShowId}) |
                 <a asp-action="Edit" asp-route-id="@item.ShowId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.ShowId">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.ShowId">Delete</a>
             </td>
         </tr>
 }
+
     </tbody>
 </table>

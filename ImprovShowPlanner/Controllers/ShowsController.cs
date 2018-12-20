@@ -26,9 +26,18 @@ namespace ImprovShowPlanner.Controllers
         }
 
         // GET: Shows
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            var improvShowContext = _context.Shows.Include(s => s.Game).Include(s => s.IndivShow).Include(s => s.Player);
+            var improvShowContext = _context.Shows.Include(s => s.Game).Include(s => s.IndivShow).Include(s => s.Player).;
+            if (id != null)
+            {
+                var show = await _context.Shows
+                   .Include(s => s.Game)
+                   .Include(s => s.IndivShow)
+                   .Include(s => s.Player)
+                   .FirstOrDefaultAsync(m => m.ShowId == id);
+                return View(show);
+            }
             return View(await improvShowContext.ToListAsync());
         }
 
@@ -184,7 +193,8 @@ namespace ImprovShowPlanner.Controllers
         {
             ViewData["ShowDate"] = HelperClass.ShowBuildHelper.ShowDate;
             
-            return View();
+
+            return View(); ;
         }
         
         [HttpPost]
