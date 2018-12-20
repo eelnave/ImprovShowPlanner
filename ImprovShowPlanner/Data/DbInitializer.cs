@@ -10,10 +10,11 @@ namespace ImprovShowPlanner.Data
     {
         public static void Initialize(ImprovShowContext context)
         {
-            if (context.GameTypes.Any())
+            if (context.IndivShows.Any())
             {
                 return;
             }
+            
             var players = new Player[]
             {
                 new Player{FirstName="Evan", LastName="Peterson",NewPlayer=false},
@@ -47,11 +48,12 @@ namespace ImprovShowPlanner.Data
             }
             context.SaveChanges();
 
+
             var indivShows = new IndivShow[]
             {
                 new IndivShow{Date = DateTime.Now},
-                new IndivShow{Date = DateTime.Now},
-                new IndivShow{Date = DateTime.Now},
+                new IndivShow{Date = DateTime.Parse("Jan 1, 2019 19:00")},
+                new IndivShow{Date = DateTime.Parse("Jan 1, 2019 21:00")},
 
             };
             foreach (IndivShow i in indivShows)
